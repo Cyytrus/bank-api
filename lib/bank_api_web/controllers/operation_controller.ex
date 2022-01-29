@@ -1,16 +1,17 @@
 defmodule BankApiWeb.OperationController do
   use BankApiWeb, :controller
+  alias BankApi.Operations
+  action_fallback BankApiWeb.FallbackController
 
   def transfer(conn, %{
         "from_account_id" => from_account_id,
         "to_account_id" => to_account_id,
         "value" => value
       }) do
-    IO.inspect(from_account_id)
-    IO.inspect(to_account_id)
-    IO.inspect(value)
 
+    with {:ok, message} <- Operations.transfer(from_account_id, to_account_id, value) do
     conn
-    |> render("success.json", message: "Transferencia realizada com sucesso!")
+    |> render("success.json", message: message)
+    end
   end
 end
