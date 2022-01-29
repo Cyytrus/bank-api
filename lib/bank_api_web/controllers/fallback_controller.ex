@@ -12,6 +12,6 @@ defmodule BankApiWeb.FallbackController do
     conn
     |> put_status(:unprocessable_entity)
     |> put_view(BankApiWeb.ErrorView)
-    |> render("error_message.json", changeset: message)
+    |> render("error_message.json", message: message)
   end
 end
