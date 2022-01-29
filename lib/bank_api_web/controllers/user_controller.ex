@@ -8,8 +8,14 @@ defmodule BankApiWeb.UserController do
     with {:ok, user, account} <- Accounts.create_user(user) do
       conn
       |> put_status(:created)
+      |> put_resp_header("location", Routes.user_path(conn, :show, id: user.id))
       |> render("account.json", %{user: user, account: account})
     end
+  end
+
+  def index(conn, _) do
+    conn
+    |> render("index.json", users: Accounts.get_users())
   end
 
   def show(conn, %{"id" => id}) do

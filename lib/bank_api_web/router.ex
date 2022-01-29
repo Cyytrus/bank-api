@@ -10,6 +10,7 @@ defmodule BankApiWeb.Router do
 
     post "/auth/signup", UserController, :signup
     get "/user", UserController, :show
+    get "/users", UserController, :index
   end
 
   # Enables LiveDashboard only for development

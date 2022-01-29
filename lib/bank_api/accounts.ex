@@ -25,4 +25,6 @@ defmodule BankApi.Accounts do
   end
 
   def get_user!(id), do: Repo.get(User, id) |> Repo.preload(:accounts)
+
+  def get_users(), do: Repo.all(User) |> Repo.preload(:accounts)
 end
