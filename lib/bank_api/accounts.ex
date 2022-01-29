@@ -3,20 +3,24 @@ defmodule BankApi.Accounts do
   alias BankApi.Accounts.{Account, User}
 
   def create_user(attrs \\ %{}) do
-    case insert_user(attrs) do
-      {:ok, user} ->
-        {:ok, account} = user
+    transaction =
+      Ecto.Multi.new()
+      |> Ecto.Multi.insert(:user, insert_user(attrs))
+      |> Ecto.Multi.insert(:account, fn %{user: user} ->
+        user
         |> Ecto.build_assoc(:accounts)
         |> Account.changeset()
-        |> Repo.insert()
-        {:ok, account |> Repo.preload(:user)}
-        {:error, changeset} -> {:error, changeset}
+      end)
+      |> Repo.transaction()
+
+    case transaction do
+      {:ok, operations} -> {:ok, operations.user, operations.account}
+      {:error, :user, changeset, _} -> {:error, changeset}
     end
   end
 
   defp insert_user(attrs) do
     %User{}
     |> User.changeset(attrs)
-    |> Repo.insert()
   end
 end
