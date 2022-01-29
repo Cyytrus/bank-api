@@ -23,4 +23,6 @@ defmodule BankApi.Accounts do
     %User{}
     |> User.changeset(attrs)
   end
+
+  def get_user!(id), do: Repo.get(User, id) |> Repo.preload(:accounts)
 end

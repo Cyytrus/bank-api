@@ -11,4 +11,10 @@ defmodule BankApiWeb.UserController do
       |> render("account.json", %{user: user, account: account})
     end
   end
+
+  def show(conn, %{"id" => id}) do
+    user = Accounts.get_user!(id)
+    conn
+    |> render("show.json", user: user)
+  end
 end
