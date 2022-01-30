@@ -2,6 +2,8 @@ defmodule BankApi.Transactions.Transaction do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @primary_key {:id, :binary_id, autogenerate: true}
+  @derive {Phoenix.Param, key: :id}
   schema "transactions" do
     field :date, :date
     field :from_account, :string
