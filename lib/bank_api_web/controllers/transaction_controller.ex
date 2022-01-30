@@ -1,20 +1,21 @@
 defmodule BankApiWeb.TransactionController do
   use BankApiWeb, :controller
+  alias BankApi.Transactions
   action_fallback BankApiWeb.FallbackController
 
   def all(conn, _) do
-    render(conn, "Show.json", transaction: Transactions.all)
+    render(conn, "show.json", transaction: Transactions.all())
   end
 
-  def all(conn, _) do
-    render(conn, "Show.json", transaction: Transactions.all)
+  def year(conn, %{"year" => year}) do
+    render(conn, "show.json", transaction: Transactions.all)
   end
 
-  def all(conn, _) do
-    render(conn, "Show.json", transaction: Transactions.all)
+  def month(conn, %{"year" => year, "month" => month}) do
+    render(conn, "show.json", transaction: Transactions.all)
   end
 
-  def all(conn, _) do
-    render(conn, "Show.json", transaction: Transactions.all)
+  def day(conn, %{"day" => day}) do
+    render(conn, "show.json", transaction: Transactions.all)
   end
 end

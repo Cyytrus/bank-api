@@ -17,8 +17,20 @@ defmodule BankApi.Transactions do
       [%Transaction{}, ...]
 
   """
-  def list_transactions do
+  def all do
     Repo.all(Transaction)
+    |> create_payload()
+  end
+
+  def create_payload(transactions) do
+    %{transactions: transactions, total: calculate_value(transactions)}
+  end
+
+  def calculate_value(transactions) do
+    Enum.map(transactions, fn t ->
+      Decimal.to_float(t.value)
+    end)
+    |> Enum.sum()
   end
 
   @doc """
